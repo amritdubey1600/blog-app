@@ -145,11 +145,11 @@ const BlogForm = () => {
               </div>
             )}
 
-            {/* Form Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {/* Form Grid - Row 1: Title and Author */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               
               {/* Title Field */}
-              <div className="lg:col-span-2">
+              <div>
                 <label htmlFor="title" className="flex items-center space-x-2 text-gray-700 font-semibold mb-3">
                   <BookOpen className="h-4 w-4 text-emerald-600" />
                   <span>Blog Title</span>
@@ -161,7 +161,7 @@ const BlogForm = () => {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Enter your blog title..."
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
                   required
                 />
               </div>
@@ -179,27 +179,30 @@ const BlogForm = () => {
                   value={formData.author}
                   onChange={handleChange}
                   placeholder="Your name..."
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
                   required
                 />
               </div>
+            </div>
 
-              {/* Summary Field */}
-              <div>
-                <label htmlFor="summary" className="flex items-center space-x-2 text-gray-700 font-semibold mb-3">
-                  <FileText className="h-4 w-4 text-emerald-600" />
-                  <span>Summary</span>
-                </label>
-                <input
-                  type="text"
-                  name="summary"
-                  id="summary"
-                  value={formData.summary}
-                  onChange={handleChange}
-                  placeholder="Brief description..."
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                  required
-                />
+            {/* Row 2: Summary Field - Full Width with More Height */}
+            <div className="mb-8">
+              <label htmlFor="summary" className="flex items-center space-x-2 text-gray-700 font-semibold mb-3">
+                <FileText className="h-4 w-4 text-emerald-600" />
+                <span>Summary</span>
+              </label>
+              <textarea
+                name="summary"
+                id="summary"
+                rows={4}
+                value={formData.summary}
+                onChange={handleChange}
+                placeholder="Write a compelling summary of your blog post. This will be displayed as a preview and help readers understand what your article is about..."
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors resize-vertical min-h-[120px]"
+                required
+              />
+              <div className="mt-2 text-xs text-gray-500">
+                {formData.summary.length}/150 characters recommended
               </div>
             </div>
 
@@ -223,7 +226,7 @@ const BlogForm = () => {
                   />
                   <label
                     htmlFor="image"
-                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
+                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500"
                   >
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <Upload className="w-8 h-8 mb-3 text-gray-400" />
@@ -246,7 +249,7 @@ const BlogForm = () => {
                   <button
                     type="button"
                     onClick={removeImage}
-                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
+                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-400"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -254,7 +257,7 @@ const BlogForm = () => {
               )}
             </div>
 
-            {/* Content Field - CRITICAL: No wrapper containers around TipTapEditor */}
+            {/* Content Field */}
             <div className="mb-8">
               <label className="flex items-center space-x-2 text-gray-700 font-semibold mb-3">
                 <PenTool className="h-4 w-4 text-emerald-600" />
