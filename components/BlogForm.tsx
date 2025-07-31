@@ -197,7 +197,7 @@ const BlogForm = () => {
                 rows={4}
                 value={formData.summary}
                 onChange={handleChange}
-                placeholder="Write a compelling summary of your blog post. This will be displayed as a preview and help readers understand what your article is about..."
+                placeholder="A quick preview of what this blog post covers to hook readers and drive engagement..."
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors resize-vertical min-h-[120px]"
                 required
               />
