@@ -61,37 +61,42 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu */}
-            <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-                menuOpen 
-                    ? 'max-h-64 opacity-100' 
-                    : 'max-h-0 opacity-0'
-            }`}>
-                <div className="px-4 pb-4 space-y-2">
-                    <Link 
-                        href={'/'} 
-                        className="flex items-center space-x-2 text-slate-300 hover:text-white hover:bg-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:translate-x-1"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        <Home className="h-4 w-4" />
-                        <span>Home</span>
-                    </Link>
-                    <Link 
-                        href={'/blogs'} 
-                        className="flex items-center space-x-2 text-slate-300 hover:text-white hover:bg-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:translate-x-1"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        <BookOpen className="h-4 w-4" />
-                        <span>Blogs</span>
-                    </Link>
-                    <Link 
-                        href={'/blogs/form'} 
-                        className="flex items-center space-x-2 text-slate-300 hover:text-emerald-400 hover:bg-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border border-slate-700 hover:border-emerald-500/50 transform hover:translate-x-1"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        <Plus className="h-4 w-4" />
-                        <span>Add Blog</span>
-                    </Link>
-                </div>
+            <div className="relative">
+             {/* Trigger or top navbar (not shown here) */}
+
+             {/* Dropdown menu */}
+             <div
+               className={`md:hidden absolute top-full left-0 w-full z-50 bg-slate-900 overflow-hidden transition-all duration-300 ease-in-out ${
+                 menuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+               }`}
+             >
+               <div className="px-4 pb-4 space-y-2">
+                 <Link
+                   href="/"
+                   className="flex items-center space-x-2 text-slate-300 hover:text-white hover:bg-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:translate-x-1"
+                   onClick={() => setMenuOpen(false)}
+                 >
+                   <Home className="h-4 w-4" />
+                   <span>Home</span>
+                 </Link>
+                 <Link
+                   href="/blogs"
+                   className="flex items-center space-x-2 text-slate-300 hover:text-white hover:bg-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:translate-x-1"
+                   onClick={() => setMenuOpen(false)}
+                 >
+                   <BookOpen className="h-4 w-4" />
+                   <span>Blogs</span>
+                 </Link>
+                 <Link
+                   href="/blogs/form"
+                   className="flex items-center justify-center space-x-2 text-slate-300 hover:text-emerald-400 hover:bg-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border border-slate-700 hover:border-emerald-500/50 transform hover:translate-x-1"
+                   onClick={() => setMenuOpen(false)}
+                 >
+                   <Plus className="h-4 w-4" />
+                   <span>Add Blog</span>
+                 </Link>
+               </div>
+             </div>
             </div>
         </nav>
     );

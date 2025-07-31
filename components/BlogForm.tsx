@@ -2,10 +2,12 @@
 
 import { blogType } from "@/app/blogs/page";
 import { useState } from "react";
-import { PenTool, User, FileText, BookOpen, Send, AlertCircle, Info, Eye, Edit3 } from "lucide-react";
+import { PenTool, User, FileText, BookOpen, Send, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { addBlog } from "@/lib/firestoreFunctions";
-import ReactMarkdown from 'react-markdown';
+import dynamic from "next/dynamic";
+
+const TipTapEditor = dynamic(() => import('./TipTapEditor'), { ssr: false })
 
 const BlogForm = () => {
   const [formData, setFormData] = useState<Omit<blogType, "id" | "date">>({
@@ -16,7 +18,6 @@ const BlogForm = () => {
   });
   const [err, setErr] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [previewMode, setPreviewMode] = useState<'write' | 'preview'>('write');
 
   const router = useRouter();
 
@@ -53,6 +54,23 @@ const BlogForm = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Function to get text content from HTML (for accurate character count)
+  const getTextContent = (html: string): string => {
+    // Check if we're on the client side
+    if (typeof window === 'undefined') return html;
+    
+    // Create a temporary div to parse HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || '';
+  };
+
+  // Function to count words from HTML content
+  const getWordCount = (html: string): number => {
+    const textContent = getTextContent(html);
+    return textContent.trim() ? textContent.trim().split(/\s+/).length : 0;
   };
 
   return (
@@ -137,75 +155,28 @@ const BlogForm = () => {
               />
             </div>
 
-            {/* Content Field with Tabs */}
+            {/* Content Field */}
             <div className="mb-8">
-              <div className="flex items-center justify-between mb-3">
-                <label className="flex items-center space-x-2 text-slate-700 font-semibold">
-                  <PenTool className="h-4 w-4 text-emerald-600" />
-                  <span>Content</span>
-                </label>
-                
-                {/* Tab Toggle */}
-                <div className="flex bg-slate-100 rounded-lg p-1">
-                  <button
-                    type="button"
-                    onClick={() => setPreviewMode('write')}
-                    className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                      previewMode === 'write'
-                        ? 'bg-white text-slate-900 shadow-sm'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    <Edit3 className="h-3 w-3" />
-                    <span>Write</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPreviewMode('preview')}
-                    className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                      previewMode === 'preview'
-                        ? 'bg-white text-slate-900 shadow-sm'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    <Eye className="h-3 w-3" />
-                    <span>Preview</span>
-                  </button>
-                </div>
-              </div>
+              <label className="flex items-center space-x-2 text-slate-700 font-semibold mb-3">
+                <PenTool className="h-4 w-4 text-emerald-600" />
+                <span>Content</span>
+              </label>
 
               {/* Content Area */}
-              <div className="border border-slate-300 rounded-lg overflow-hidden">
-                {previewMode === 'write' ? (
-                  <textarea
-                    name="content"
-                    id="content"
-                    value={formData.content}
-                    onChange={handleChange}
-                    placeholder="Write your blog content here..."
-                    rows={8}
-                    className="w-full px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 resize-y min-h-[200px] border-0"
-                    required
-                  />
-                ) : (
-                  <div className="prose prose-slate max-w-none p-4 bg-slate-50 min-h-[200px]">
-                    {formData.content ? (
-                      <ReactMarkdown>{formData.content}</ReactMarkdown>
-                    ) : (
-                      <p className="text-slate-400 italic">Nothing to preview yet. Switch to Write tab to add content.</p>
-                    )}
-                  </div>
-                )}
-              </div>
+              <TipTapEditor
+                value={formData.content}
+                onChange={(html) =>
+                  setFormData((prev) => ({ ...prev, content: html }))
+                }
+              />
               
               <div className="flex items-center justify-between mt-2">
-                <p className="flex items-center text-xs font-bold text-slate-500 gap-1">
-                  <Info className="h-4 w-4" />
-                  Supports Markdown Syntax
-                </p>
-                <p className="text-xs text-slate-500">
-                  {formData.content.length} characters
-                </p>
+                <div className="text-xs text-slate-500">
+                  {getWordCount(formData.content)} words
+                </div>
+                <div className="text-xs text-slate-500">
+                  {getTextContent(formData.content).length} characters
+                </div>
               </div>
             </div>
 

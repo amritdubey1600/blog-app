@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { BookOpen, Search, X } from 'lucide-react';
+import { BookOpen, Search, X, Filter } from 'lucide-react';
 import BlogCard from '@/components/BlogCard';
 import NoBlogs from './NoBlogs';
 import NoSearchResults from './NoSearchResults';
@@ -37,7 +37,8 @@ export default function BlogsPage({ initialBlogs }: BlogsPageProps) {
                     return blog.author.toLowerCase().includes(term);
                 case 'content':
                     return blog.title.toLowerCase().includes(term) || 
-                           blog.summary.toLowerCase().includes(term) || 
+                           blog.summary.toLowerCase().includes(term) ||
+                           blog.author.toLowerCase().includes(term) || 
                            blog.content.toLowerCase().includes(term);
                 default:
                     return blog.title.toLowerCase().includes(term);
@@ -86,39 +87,45 @@ export default function BlogsPage({ initialBlogs }: BlogsPageProps) {
                       </div>
                     </div>
 
-
                     {/* Filter Buttons */}
-                    <div className="flex flex-wrap justify-center gap-2 mb-6">
+                    <div className="flex flex-col items-center gap-4 mb-4">
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Filter className="h-4 w-4" />
+                        <span className="text-sm font-medium">Search in:</span>
+                      </div>
+
+                      <div className="flex flex-wrap justify-center gap-3">
                         <button
-                            onClick={() => setSearchBy('title')}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                                searchBy === 'title'
-                                    ? 'bg-emerald-600 text-white'
-                                    : 'bg-slate-800/50 text-slate-300 hover:bg-slate-700/50 hover:text-white'
-                            }`}
+                          onClick={() => setSearchBy('content')}
+                          className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
+                            searchBy === 'content'
+                              ? 'bg-emerald-600 text-white border-emerald-500'
+                              : 'bg-slate-800/50 text-slate-300 border-slate-600 hover:bg-slate-700/70 hover:text-white hover:border-slate-500'
+                          }`}
                         >
-                            Title
+                          Everything
                         </button>
                         <button
-                            onClick={() => setSearchBy('author')}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                                searchBy === 'author'
-                                    ? 'bg-emerald-600 text-white'
-                                    : 'bg-slate-800/50 text-slate-300 hover:bg-slate-700/50 hover:text-white'
-                            }`}
+                          onClick={() => setSearchBy('title')}
+                          className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
+                            searchBy === 'title'
+                              ? 'bg-emerald-600 text-white border-emerald-500'
+                              : 'bg-slate-800/50 text-slate-300 border-slate-600 hover:bg-slate-700/70 hover:text-white hover:border-slate-500'
+                          }`}
                         >
-                            Author
+                          Titles Only
                         </button>
                         <button
-                            onClick={() => setSearchBy('content')}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                                searchBy === 'content'
-                                    ? 'bg-emerald-600 text-white'
-                                    : 'bg-slate-800/50 text-slate-300 hover:bg-slate-700/50 hover:text-white'
-                            }`}
+                          onClick={() => setSearchBy('author')}
+                          className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
+                            searchBy === 'author'
+                              ? 'bg-emerald-600 text-white border-emerald-500'
+                              : 'bg-slate-800/50 text-slate-300 border-slate-600 hover:bg-slate-700/70 hover:text-white hover:border-slate-500'
+                          }`}
                         >
-                            All Content
+                          Authors Only
                         </button>
+                      </div>
                     </div>
 
                     {/* Search Results Info */}

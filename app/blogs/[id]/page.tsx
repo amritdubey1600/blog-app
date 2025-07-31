@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Calendar, User, Clock } from 'lucide-react';
 import { blogType } from '../page';
-import ReactMarkdown from 'react-markdown';
 import { getBlog } from '@/lib/firestoreFunctions';
 
 export default async function Blog({params}: {params: Promise<{id: string}>}){
@@ -11,8 +10,15 @@ export default async function Blog({params}: {params: Promise<{id: string}>}){
 
     if(!blog) notFound();
 
+    // Function to get text content from HTML for word count calculation
+    const getTextFromHTML = (html: string): string => {
+        // Remove HTML tags for word counting
+        return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    };
+
     // Calculate reading time (assuming 200 words per minute)
-    const wordCount = blog.content.split(' ').length;
+    const textContent = getTextFromHTML(blog.content);
+    const wordCount = textContent.split(' ').filter(word => word.length > 0).length;
     const readingTime = Math.ceil(wordCount / 200);
 
     return (
@@ -57,10 +63,25 @@ export default async function Blog({params}: {params: Promise<{id: string}>}){
 
                 {/* Article Body */}
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 md:p-12">
-                    <div className="prose prose-slate prose-lg max-w-none">
-                        <div className="text-slate-700 leading-relaxed whitespace-pre-line">
-                            <ReactMarkdown>{blog.content}</ReactMarkdown>
-                        </div>
+                    <div className="prose prose-slate prose-lg max-w-none 
+                                    prose-headings:text-slate-900 prose-headings:font-bold
+                                    prose-h1:text-3xl prose-h1:mb-6 prose-h1:mt-8
+                                    prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-6
+                                    prose-h3:text-xl prose-h3:mb-3 prose-h3:mt-5
+                                    prose-p:text-slate-700 prose-p:leading-relaxed prose-p:mb-4
+                                    prose-strong:text-slate-900 prose-strong:font-semibold
+                                    prose-em:text-slate-700 prose-em:italic
+                                    prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+                                    prose-blockquote:border-l-4 prose-blockquote:border-emerald-500 prose-blockquote:bg-emerald-50 prose-blockquote:pl-4 prose-blockquote:py-2 prose-blockquote:italic
+                                    prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-4
+                                    prose-ol:list-decimal prose-ol:pl-6 prose-ol:mb-4
+                                    prose-li:mb-1 prose-li:text-slate-700
+                                    prose-hr:border-slate-300 prose-hr:my-8
+                                    prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-w-full">
+                        <div 
+                            dangerouslySetInnerHTML={{ __html: blog.content }}
+                            className="text-slate-700 leading-relaxed"
+                        />
                     </div>
                 </div>
 
