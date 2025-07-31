@@ -259,7 +259,7 @@ export default function TipTapEditor({ value, onChange }: {
       </div>
 
       <div className="flex justify-between border-t border-slate-200 px-4 py-2 bg-slate-50 text-xs text-slate-500 flex-shrink-0">
-        <p>💡 <strong>Image tips:</strong> Upload files up to 5MB or paste image URLs. Click on images to select/delete them.</p>
+        <p>💡 <strong>Image tips:</strong> Upload files up to 1MB or paste image URLs. Click on images to select/delete them.</p>
         {isFullscreen && <span className="ml-4 hidden sm:visible">Press <kbd className="px-1 py-0.5 bg-slate-200 rounded text-xs">Esc</kbd> to exit fullscreen</span>}
       </div>
     </div>
