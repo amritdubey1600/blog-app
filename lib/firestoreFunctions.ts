@@ -34,7 +34,6 @@ export async function getBlog(id: string): Promise<blogType> {
     if(!docSnap.exists()) throw new Error('Docment not found.');
     
     const data = docSnap.data() as Omit<blogType,"id">;
-    console.log(data);
     return {id: docSnap.id, ...data};
 }
 
