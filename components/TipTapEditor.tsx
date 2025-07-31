@@ -87,8 +87,8 @@ export default function TipTapEditor({ value, onChange }: {
     }
 
     // Check file size (limit to 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Image size should be less than 5MB');
+    if (file.size > 1024 * 1024) {
+      alert('Image size should be less than 1MB');
       return;
     }
 

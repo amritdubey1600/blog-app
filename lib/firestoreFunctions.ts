@@ -1,6 +1,7 @@
 import { blogType } from "@/app/blogs/page";
 import { db } from "./firebase";
 import { collection, doc, addDoc, getDocs, getDoc } from "firebase/firestore";
+import { deleteDoc } from "firebase/firestore/lite";
 
 const blogCollection = collection(db, "blogs");
 
@@ -31,8 +32,20 @@ export async function getBlog(id: string): Promise<blogType> {
     const docSnap = await getDoc(docRef);
 
     if(!docSnap.exists()) throw new Error('Docment not found.');
-
+    
     const data = docSnap.data() as Omit<blogType,"id">;
+    console.log(data);
     return {id: docSnap.id, ...data};
+}
+
+export async function deleteBlog(id: string): Promise<void>{
+    try{
+      const docRef = doc(db, "blogs", id);
+      await deleteDoc(docRef).then(() =>{
+        console.log("Deleted Successfully!");
+      })
+    } catch(error){
+      console.error("Error", error);
+    }
 }
 

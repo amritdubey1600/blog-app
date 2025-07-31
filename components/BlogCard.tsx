@@ -13,7 +13,7 @@ export default function BlogCard({blog}: {blog: blogType}) {
            {/* Blog Image */}
            <div className="relative h-48 overflow-hidden">
                <Image
-                   src={blog.image || "/api/placeholder/400/200"}
+                   src={blog.image}
                    alt={blog.title}
                    fill
                    className="object-cover group-hover:scale-105 transition-transform duration-300"
