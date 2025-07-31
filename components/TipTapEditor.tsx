@@ -10,17 +10,14 @@ import {
   Italic, 
   Strikethrough, 
   Code, 
-  Heading1, 
-  Heading2, 
-  List, 
-  ListOrdered, 
-  Quote,
   Type,
   Minus,
   Minimize2,
   Maximize2,
   Link,
-  Upload
+  Upload,
+  Undo,
+  Redo
 } from 'lucide-react';
 
 export default function TipTapEditor({ value, onChange }: {
@@ -186,7 +183,7 @@ export default function TipTapEditor({ value, onChange }: {
 
         <ToolbarSeparator />
 
-        {/* Headings */}
+        {/* Paragraph */}
         <ToolbarButton
           onClick={() => editor.chain().focus().setParagraph().run()}
           isActive={editor.isActive('paragraph')}
@@ -194,53 +191,8 @@ export default function TipTapEditor({ value, onChange }: {
         >
           <Type className="h-4 w-4" />
         </ToolbarButton>
-        
-        <ToolbarButton
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          isActive={editor.isActive('heading', { level: 1 })}
-          title="Heading 1"
-        >
-          <Heading1 className="h-4 w-4" />
-        </ToolbarButton>
-        
-        <ToolbarButton
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          isActive={editor.isActive('heading', { level: 2 })}
-          title="Heading 2"
-        >
-          <Heading2 className="h-4 w-4" />
-        </ToolbarButton>
-
-        <ToolbarSeparator />
-
-        {/* Lists */}
-        <ToolbarButton
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          isActive={editor.isActive('bulletList')}
-          title="Bullet List"
-        >
-          <List className="h-4 w-4" />
-        </ToolbarButton>
-        
-        <ToolbarButton
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          isActive={editor.isActive('orderedList')}
-          title="Numbered List"
-        >
-          <ListOrdered className="h-4 w-4" />
-        </ToolbarButton>
-
-        <ToolbarSeparator />
 
         {/* Block Elements */}
-        <ToolbarButton
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          isActive={editor.isActive('blockquote')}
-          title="Quote"
-        >
-          <Quote className="h-4 w-4" />
-        </ToolbarButton>
-        
         <ToolbarButton
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
           title="Horizontal Rule"
@@ -263,6 +215,25 @@ export default function TipTapEditor({ value, onChange }: {
           title="Add Image from URL"
         >
           <Link className="h-4 w-4" />
+        </ToolbarButton>
+
+        <ToolbarSeparator />
+
+        {/* Undo/Redo */}
+        <ToolbarButton
+          onClick={() => editor.chain().focus().undo().run()}
+          disabled={!editor.can().undo()}
+          title="Undo (Ctrl+Z)"
+        >
+          <Undo className="h-4 w-4" />
+        </ToolbarButton>
+        
+        <ToolbarButton
+          onClick={() => editor.chain().focus().redo().run()}
+          disabled={!editor.can().redo()}
+          title="Redo (Ctrl+Y)"
+        >
+          <Redo className="h-4 w-4" />
         </ToolbarButton>
 
         <ToolbarSeparator />
