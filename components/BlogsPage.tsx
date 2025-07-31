@@ -2,18 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { BookOpen, Search, X, Filter } from 'lucide-react';
+import { blogType } from '@/app/blogs/page';
 import BlogCard from '@/components/BlogCard';
 import NoBlogs from './NoBlogs';
 import NoSearchResults from './NoSearchResults';
-
-export interface blogType{
-    id: string;
-    title: string;
-    author: string;
-    date: string;
-    summary: string;
-    content: string;
-};
 
 interface BlogsPageProps {
     initialBlogs: blogType[];

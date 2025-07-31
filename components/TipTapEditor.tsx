@@ -282,7 +282,7 @@ export default function TipTapEditor({ value, onChange }: {
           className={`${
             isFullscreen 
               ? 'h-full [&_.ProseMirror]:outline-none [&_.ProseMirror]:h-full [&_.ProseMirror]:p-4 [&_.ProseMirror]:overflow-y-auto [&_.ProseMirror_img]:cursor-pointer [&_.ProseMirror_img]:border-2 [&_.ProseMirror_img]:border-transparent [&_.ProseMirror_img:hover]:border-emerald-300' 
-              : 'min-h-[250px] [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[250px] [&_.ProseMirror]:p-4 [&_.ProseMirror_img]:cursor-pointer [&_.ProseMirror_img]:border-2 [&_.ProseMirror_img]:border-transparent [&_.ProseMirror_img:hover]:border-emerald-300'
+              : 'min-h-[350px] [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[350px] [&_.ProseMirror]:p-4 [&_.ProseMirror_img]:cursor-pointer [&_.ProseMirror_img]:border-2 [&_.ProseMirror_img]:border-transparent [&_.ProseMirror_img:hover]:border-emerald-300'
           }`}
         />
       </div>

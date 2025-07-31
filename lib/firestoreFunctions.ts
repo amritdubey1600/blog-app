@@ -4,8 +4,9 @@ import { collection, doc, addDoc, getDocs, getDoc } from "firebase/firestore";
 
 const blogCollection = collection(db, "blogs");
 
-export async function addBlog(title: string, author:string, summary: string, content: string) {
+export async function addBlog(image: string, title: string, author:string, summary: string, content: string) {
   const docRef = await addDoc(blogCollection, {
+    image,
     title,
     content,
     author,

@@ -3,6 +3,7 @@ import BlogsPage from '@/components/BlogsPage'; // Import the client component
 
 export interface blogType{
     id: string;
+    image: string;
     title: string;
     author: string;
     date: string;
