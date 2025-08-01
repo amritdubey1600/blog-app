@@ -20,6 +20,7 @@ const BlogForm = () => {
     content: ""
   });
   const [err, setErr] = useState<string>("");
+  const [imgErr, setImgErr] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [imagePreview, setImagePreview] = useState<string>("");
 
@@ -43,13 +44,13 @@ const BlogForm = () => {
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      setErr("Please select a valid image file");
+      setImgErr("Please select a valid image file");
       return;
     }
 
     // Validate file size (max 5MB)
     if (file.size > 1024 * 1024) {
-      setErr("Image size should be less than 1MB");
+      setImgErr("Image size should be less than 1MB");
       return;
     }
 
@@ -65,7 +66,7 @@ const BlogForm = () => {
     reader.readAsDataURL(file);
     
     // Clear error if it was related to image
-    if (err) setErr("");
+    if (imgErr) setImgErr("");
   };
 
   const removeImage = () => {
@@ -97,7 +98,7 @@ const BlogForm = () => {
       router.push(`/blogs/${id}`);
     } catch (error) {
       console.error("Error adding blog:", error);
-      setErr("Something went wrong. Please try again.");
+      setErr("Something went wrong. Please use images of compressed sizes in content and try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -136,14 +137,6 @@ const BlogForm = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 sm:p-8">
-
-            {/* Error Message */}
-            {err && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3">
-                <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
-                <p className="text-red-700 font-medium">{err}</p>
-              </div>
-            )}
 
             {/* Form Grid - Row 1: Title and Author */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -257,6 +250,14 @@ const BlogForm = () => {
               )}
             </div>
 
+            {/* Error Message */}
+            {imgErr && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3">
+                <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+                <p className="text-red-700 text-sm font-medium">{imgErr}</p>
+              </div>
+            )}
+
             {/* Content Field */}
             <div className="mb-8">
               <label className="flex items-center space-x-2 text-gray-700 font-semibold mb-3">
@@ -287,6 +288,14 @@ const BlogForm = () => {
               </div>
             </div>
 
+            {/* Error Message */}
+            {err && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3">
+                <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+                <p className="text-red-700 text-sm font-medium">{err}</p>
+              </div>
+            )}
+
             {/* Submit Button */}
             <div className="flex justify-end">
               <button
@@ -308,6 +317,11 @@ const BlogForm = () => {
               </button>
             </div>
           </form>
+        </div>
+
+        {/* Footer note */}
+        <div className="text-center mt-8 text-sm text-slate-500">
+          <p>Your blog will be published immediately after submission</p>
         </div>
       </div>
     </div>
