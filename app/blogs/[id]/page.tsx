@@ -16,10 +16,21 @@ export default async function Blog({params}: {params: Promise<{id: string}>}){
         return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
     };
 
+    // Function to add <br> tags after </p> and </img> tags
+    const addBreakTags = (html: string): string => {
+        return html
+            .replace(/<\/p>/g, '</p><br>')
+            .replace(/<\/img>/g, '</img><br>')
+            .replace(/<img([^>]*)\/>/g, '<img$1/><br>'); // Handle self-closing img tags
+    };
+
     // Calculate reading time (assuming 200 words per minute)
     const textContent = getTextFromHTML(blog.content);
     const wordCount = textContent.split(' ').filter(word => word.length > 0).length;
     const readingTime = Math.ceil(wordCount / 200);
+
+    // Process content to add break tags
+    const processedContent = addBreakTags(blog.content);
 
     return (
         <div className="min-h-screen bg-slate-50">
@@ -79,7 +90,7 @@ export default async function Blog({params}: {params: Promise<{id: string}>}){
                                     prose-hr:border-slate-300 prose-hr:my-8
                                     prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-w-full">
                         <div 
-                            dangerouslySetInnerHTML={{ __html: blog.content }}
+                            dangerouslySetInnerHTML={{ __html: processedContent }}
                             className="text-slate-700 leading-relaxed"
                         />
                     </div>
